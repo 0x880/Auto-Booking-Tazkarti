@@ -1,17 +1,17 @@
-import requests as req
+import requests as e
 import re
 import json
 import time
 
 class TicketBooking:
     def __init__(self, user_data_file):
-        self.s = req.Session()
+        self.s = e.Session()
         self.wait = 0
         self.load_user_data(user_data_file)
         self.possible_seat_locations = self.determine_seat_locations()
         self.teams = self.initialize_teams()
         self.found = False
-        self.team_name = None
+        self.team_name = "2929292922"
         self.match_id = None
         self.category_id = None
         self.team_id = None
