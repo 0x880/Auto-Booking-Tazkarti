@@ -2,11 +2,13 @@ import requests as e
 import re
 import json
 import time
+from recap_token import RecaptchaSolver
 
 class TicketBooking:
-    def __init__(self, user_data_file):
+    def __init__(self, user_data_file, recaptcha_token):
         self.s = e.Session()
         self.wait = 0
+        self.recaptcha_token = recaptcha_token
         self.load_user_data(user_data_file)
         self.possible_seat_locations = self.determine_seat_locations()
         self.teams = self.initialize_teams()
@@ -26,7 +28,7 @@ class TicketBooking:
             self.search_word = lines[2]
             self.seats = lines[3]
             self.category = lines[4]
-    
+
     def determine_seat_locations(self):
         if "درج" in self.category and "ول" in self.category:
             return ["Cat 1", "Cat1"]
@@ -72,10 +74,11 @@ class TicketBooking:
                     return res
                 else:
                     self.wait += 1
-                    print(f'\rإنتظر حتى يفتح التسجيل ... لا تغلق البرنامج : {self.wait}', end='')
+                    print(f'\rPlease wait until registration opens ... Do not close the program: {self.wait}', end='')
+
                     time.sleep(2)
-            except Exception as e:
-                print(e)
+            except Exception as ee:
+                print(ee)
 
     def get_headers(self):
         return {
@@ -127,7 +130,7 @@ class TicketBooking:
         json_data = {
             'Username': self.username,
             'Password': self.password,
-            'recaptchaResponse': '',
+            'recaptchaResponse': self.recaptcha_token,
         }
         r = self.s.post('https://tazkarti.com/home/Login', headers=headers, json=json_data).text
         tok = r.split('access_token":"')[1].split('"')[0]
@@ -175,18 +178,21 @@ class TicketBooking:
         
         r3 = self.s.post('https://tazkarti.com/booksprt/BookingTickets/assignSeats', headers=h3, json=json_data3).text
         if 'assignFanId":"' in r3:
-            #print(r3)
-            print("تم التسجيل بنجاح 😍 ✅")
-            print("يمكنك إغلاق البرنامج الآن ⚠️ ")
+            print(r3)
+            print("Registration successful 😍 ✅")
+            print("You can now close the program ⚠️")
+
             time.sleep(10*1000)
         elif "This assignFanID assigned before or same category in seats=" in r3:
-            print("تم تسجيل هذا المستخدم من قبل في هذه الفئة ✅ ")
-        elif "no seats locked" in response:
-            print("نأسف، لا توجد تذاكر كافية في هذه الفئة، إختار فئة أخرى ")
+            print("This user has already been registered in this category ✅")
+        elif "no seats locked" in r3:
+            print("Sorry, there are not enough tickets in this category. Please choose another category.")
 
 
 if __name__ == '__main__':
-    booking = TicketBooking('data.txt')
+    solver = RecaptchaSolver('https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LeypS8dAAAAAGWYer3FgEpGtmlBWBhsnGF0tCGZ&co=aHR0cHM6Ly90YXprYXJ0aS5jb206NDQz&hl=en&v=9pvHvq7kSOTqqZusUzJ6ewaF&size=invisible&cb=376av9ky8egv')
+    tok = solver.get_token()
+    booking = TicketBooking('data.txt', tok)
     booking.find_team_info()
     response_text = booking.wait_for_registration()
     booking.get_match_id(response_text)
