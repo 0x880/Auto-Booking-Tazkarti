@@ -34,7 +34,7 @@ class TicketBooking:
             return ["Cat 1", "Cat1"]
         elif "درج" in self.category and "اني" in self.category:
             return ["Cat 2", "Cat2"]
-        elif "تالت" in self.category and "ثالث" in self.category:
+        elif "تالت" in self.category or "ثالث" in self.category:
             return ["Cat 3", "Cat3"]
         elif "مقصو" in self.category:
             return ["VIP"]
