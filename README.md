@@ -1,17 +1,18 @@
-# كيفية الاستخدام
+# How to Use
 
-### لمستخدمي نظام Windows
+## For Windows Users
 
-#### خيار 1: تشغيل برنامج جاهز
+### Option 1: Run the Executable
+You can download the pre-built executable (.exe) from [https://github.com/0x880/Auto-Booking-Tazkarti/releases/download/0.1/Tazkarti.com.Auto.Booking.zip](#) and run it directly. The program will continue running until tickets are available on the site, at which point it will automatically book them.
 
-يمكنك تحميل البرنامج الجاهز (`.exe`) [Download](https://github.com/0x880/Auto-Booking-Tazkarti/releases/download/0.1/Tazkarti.com.Auto.Booking.zip)  وتشغيله مباشرة. سيظل البرنامج يعمل حتى يتم فتح التذاكر على الموقع، حيث سيقوم بالحجز تلقائياً.
+### Option 2: Run Main.py Using Python
+You can also download Python and run the `Main.py` file using a Python IDE.
 
-#### خيار 2: تشغيل ملف `Main.py` باستخدام Python
+## Input Your Data
+Place your data in the `data.txt` file in the specified order.
 
-يمكنك أيضاً تحميل Python وتشغيل ملف `Main.py` من خلال IDE Python.
-
-### وضع بياناتك
-
-ضع بياناتك بالترتيب في ملف `data.txt`.
-
-### الفرق المضافة حتى الآن : `[الاسماعيلي - الزمالك - الاهلي - المصري]`
+## Teams Added So Far
+- Ismaily
+- Zamalek
+- Ahly
+- Masry
